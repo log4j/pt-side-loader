@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app="ptApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+  </head>
+  <body>
+    <!--<h1>Hello World!</h1>
+    <!-- All of the Node.js APIs are available in this renderer process. -->
+
+
+    <div ng-controller="AppController">
+
+      <p> Transmission Status: <strong>{{client.state}}</strong></p>
+      <table>
+        <tr ng-repeat="t in client.torrents">
+          <td>{{t.name}}</td><td>{{t.totalSize}}</td>
+        </tr>
+      </table>
+
+
+
+      <br><br>
+
+      <p> PT Side Server Status: <strong>{{ptServer.state}}</strong></p>
+
+
+      <button type="button" ng-click="startServer()">Start Server</button>
+
+      <button type="button" ng-click="getTorrentList()">Get Torrent</button>
+
+
+      <button type="button" ng-click="message()">Message</button>
+
+      
+    </div>
+  </body>
+
+  <script>
+    // You can also require other files to run in this process
+    require('angular');
+    require('./renderer.js');
+    
+  </script>
+</html>
