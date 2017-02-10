@@ -11,6 +11,8 @@
 
     <div ng-controller="AppController">
 
+      <p>Device: {{client.deviceId}}</p>
+
       <p> Transmission Status: <strong>{{client.state}}</strong></p>
       <table>
         <tr ng-repeat="t in client.torrents">

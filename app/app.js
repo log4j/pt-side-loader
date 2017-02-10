@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const os = require('os');
+
     angular.module('ptApp', [
         'app.torrent'
     ])
@@ -14,6 +16,7 @@
             $scope.client = {
                 sessionId: '',
                 state: 'disconnect',
+                deviceId: os.hostname(),
                 torrents: []
             }
 
@@ -53,13 +56,14 @@
 
             $scope.connectPtSideServer = () => {
                 $scope.ptServer.state = 'connecting';
-                socket = io('http://localhost:4000');
+                socket = io('http://word.mangs.site:5000');
 
                 socket.on('credentials_require', data => {
                     console.log(data);
                     socket.emit('credentials_verify', {
                         username: 'yangmang',
-                        password: '1234'
+                        password: '1234',
+                        device: $scope.client.deviceId
                     });
                 });
 
@@ -96,6 +100,16 @@
                     });
 
                 });
+
+                socket.on('post_torrent',(data, fn)=>{
+                    console.log('post_torrent', data);
+                    // fn(['a','b']);
+                    torrentService.postTorrent(data).then(res=>{
+                        fn(res.data);
+                    });
+                });
+
+                
 
                 socket.on('disconnect', function () {
                     console.log('user disconnected');
