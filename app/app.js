@@ -55,19 +55,20 @@
                 $scope.ptServer.state = 'connecting';
                 socket = io('http://localhost:4000');
 
-                socket.on('credentials_require', data=>{
+                socket.on('credentials_require', data => {
                     console.log(data);
-                    socket.emit('credentials_verify',{
-                        username: 'yangmang',
+                    socket.emit('credentials_verify', {
+                        username: 'ziting',
                         password: '1234'
                     });
                 });
 
-                socket.on('credentials_confirmed', data=>{
+                socket.on('credentials_confirmed', data => {
                     console.log(data);
-                    if(data && data.result){
+                    if (data && data.result) {
                         $scope.ptServer.state = 'connected';
                         $scope.ptServer.id = data.data;
+                        $scope.$apply();
                     }
                 })
                 socket.on('welcome', function (data) {
@@ -84,6 +85,23 @@
                 });
                 socket.on('message', data => {
                     console.log(data);
+                });
+
+                socket.on('fetch_torrents',(data, fn)=>{
+                    console.log(data);
+                    // fn(['a','b']);
+
+                    torrentService.getTorrentList().then(res=>{
+                        fn(res.data);
+                    });
+
+                });
+
+                socket.on('disconnect', function () {
+                    console.log('user disconnected');
+                    $scope.ptServer.state = 'disconnect';
+                    $scope.ptServer.id = '';
+                    $scope.$apply();
                 });
             }
 
