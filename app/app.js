@@ -58,7 +58,7 @@
                 socket.on('credentials_require', data => {
                     console.log(data);
                     socket.emit('credentials_verify', {
-                        username: 'ziting',
+                        username: 'yangmang',
                         password: '1234'
                     });
                 });
