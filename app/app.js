@@ -4,12 +4,53 @@
     const os = require('os');
 
     angular.module('ptApp', [
-        'app.torrent'
+        'LocalStorageModule',
+        'app.torrent',
+        'app.socket'
     ])
         .constant('$CONFIG', {
             port: 9091
         })
-        .controller('AppController', function ($scope, $http, $CONFIG, torrentService) {
+        .filter('serverStatus', function () {
+
+            // In the return function, we must pass in a single parameter which will be the data we will work on.
+            // We have the ability to support multiple other parameters that can be passed into the filter optionally
+            return function (input, optional1, optional2) {
+
+                switch (input) {
+                    case ('connecting'):
+                        return '正在连接';
+                    case ('connected'):
+                        return '已连接';
+                    case ('disconnect'):
+                        return '已断开';
+                    default:
+                        return '未知';
+                }
+
+            }
+
+        })
+        .filter('sizeFormat', function () {
+
+            // In the return function, we must pass in a single parameter which will be the data we will work on.
+            // We have the ability to support multiple other parameters that can be passed into the filter optionally
+            return function (input, optional1, optional2) {
+                let unit = ['Byte','KB','MB','GB','TB','PB'];
+                let index = 0;
+
+                var size = parseInt(input);
+
+                while(size>1024){
+                    size = size/1024;
+                    index++;
+                }
+
+                return size.toFixed(2)+unit[index];
+            }
+
+        })
+        .controller('AppController', function ($scope, $http, $CONFIG, torrentService, socketService) {
             console.log('init');
             $scope.name = 'ziting';
 
@@ -18,6 +59,20 @@
                 state: 'disconnect',
                 deviceId: os.hostname(),
                 torrents: []
+            }
+
+
+            $scope.configEditMode = false;
+            $scope.enableConfigEdit = () => {
+                $scope.configEditMode = true;
+            }
+
+            $scope.saveConfigs = () => {
+                if ($scope.configs.deviceId && $scope.configs.username) {
+                    $scope.configEditMode = false;
+                    socketService.disconnectPtSideServer();
+                    socketService.connectPtSideServer($scope);
+                }
             }
 
 
@@ -54,69 +109,23 @@
                 state: 'disconnect',
             }
 
+
+            $scope.$watch(function () {
+                return socketService.serverUpdated;
+            }, function () {
+                console.log(socketService.server.state);
+                $scope.ptServer.state = socketService.server.state;
+                // $scope.$apply();
+            })
+
+            $scope.$watch(function () {
+                return socketService.configsUpdated;
+            }, function () {
+                $scope.configs = socketService.configs;
+            })
+
             $scope.connectPtSideServer = () => {
-                $scope.ptServer.state = 'connecting';
-                socket = io('http://word.mangs.site:5000');
-
-                socket.on('credentials_require', data => {
-                    console.log(data);
-                    socket.emit('credentials_verify', {
-                        username: 'yangmang',
-                        password: '1234',
-                        device: $scope.client.deviceId
-                    });
-                });
-
-                socket.on('credentials_confirmed', data => {
-                    console.log(data);
-                    if (data && data.result) {
-                        $scope.ptServer.state = 'connected';
-                        $scope.ptServer.id = data.data;
-                        $scope.$apply();
-                    }
-                })
-                socket.on('welcome', function (data) {
-                    console.log(data);
-
-                    // Respond with a message including this clients' id sent from the server
-                    socket.emit('i am client', { data: 'foo!', id: data.id });
-                });
-                socket.on('time', function (data) {
-                    console.log(data);
-                });
-                socket.on('error', data => {
-                    console.log(data);
-                });
-                socket.on('message', data => {
-                    console.log(data);
-                });
-
-                socket.on('fetch_torrents',(data, fn)=>{
-                    console.log(data);
-                    // fn(['a','b']);
-
-                    torrentService.getTorrentList().then(res=>{
-                        fn(res.data);
-                    });
-
-                });
-
-                socket.on('post_torrent',(data, fn)=>{
-                    console.log('post_torrent', data);
-                    // fn(['a','b']);
-                    torrentService.postTorrent(data).then(res=>{
-                        fn(res.data);
-                    });
-                });
-
-                
-
-                socket.on('disconnect', function () {
-                    console.log('user disconnected');
-                    $scope.ptServer.state = 'disconnect';
-                    $scope.ptServer.id = '';
-                    $scope.$apply();
-                });
+                socketService.connectPtSideServer($scope);
             }
 
             $scope.connectPtSideServer();

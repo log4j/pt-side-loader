@@ -3,6 +3,7 @@
 // All of the Node.js APIs are available in this process.
 
 require(__dirname + '/app/service/torrent-service');
+require(__dirname + '/app/service/socket-service');
 require(__dirname + '/app/app');
 
 // const io = require('socket.io-client')

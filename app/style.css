@@ -1,0 +1,29 @@
+
+
+.config-panel{
+    width: 100%;
+}
+
+.config-panel .config-title{
+    width: 150px;
+}
+
+.config-panel .config-body input{
+    width:100%;
+}
+
+.torrent-panel{
+    width: 100%;
+}
+
+.torrent-panel .torrent-name label{
+    display: inline-block;
+    width: 350px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.torrent-panel .torrent-size{
+    width: 80px;
+}

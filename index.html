@@ -1,47 +1,104 @@
 <!DOCTYPE html>
 <html ng-app="ptApp">
-  <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <!--<h1>Hello World!</h1>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Hello World!</title>
+
+	<link rel="stylesheet" href="app/style.css" type="text/css" />
+</head>
+
+<body>
+	<!--<h1>Hello World!</h1>
     <!-- All of the Node.js APIs are available in this renderer process. -->
 
 
-    <div ng-controller="AppController">
+	<div ng-controller="AppController">
 
-      <p>Device: {{client.deviceId}}</p>
+		<p>
+			<table class="config-panel">
+				<thead>
+					<tr>
+						<th colspan="2">配置信息
+							<button type="button" ng-if='!configEditMode' ng-click='enableConfigEdit()'>修改</button>
+							<button type="button" ng-if='configEditMode' ng-click='saveConfigs()'>保存</button> </th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="config-title">设备ID</td>
+						<td class="config-body">
+							<label ng-if='!configEditMode'>{{configs.deviceId}}</label>
+							<input ng-if='configEditMode' ng-model="configs.deviceId" />
+						</td>
+						<td>
 
-      <p> Transmission Status: <strong>{{client.state}}</strong></p>
-      <table>
-        <tr ng-repeat="t in client.torrents">
-          <td>{{t.name}}</td><td>{{t.totalSize}}</td>
-        </tr>
-      </table>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="config-title">葡萄账号</td>
+						<td class="config-body">
+							<label ng-if='!configEditMode'>{{configs.username}}</label>
+							<input ng-if='configEditMode' ng-model="configs.username" />
+						</td>
+						<td>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="config-title">Transmission状态</td>
+						<td class="config-body">
+							<label>{{client.state|serverStatus}}</label>
+						</td>
+						<td>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="config-title">葡萄服务器状态</td>
+						<td class="config-body">
+							<label>{{ptServer.state|serverStatus}}</label>
+						</td>
+						<td>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+		</p>
+
+
+		<p>
+			<table class="torrent-panel">
+				<thead>
+					<tr>
+						<th colspan="2">Transmission做种内容</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="t in client.torrents">
+						<td class="torrent-name" title='{{t.name}}'><label>{{t.name}}</label></td>
+						<td class="torrent-size">{{t.totalSize | sizeFormat}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</p>
 
 
 
-      <br><br>
-
-      <p> PT Side Server Status: <strong>{{ptServer.state}} {{ptServer.id}}</strong></p>
 
 
-      <button type="button" ng-click="startServer()">Start Server</button>
+	</div>
+</body>
 
-      <button type="button" ng-click="getTorrentList()">Get Torrent</button>
+<script>
+	// You can also require other files to run in this process
 
+	require('angular');
+	require('angular-local-storage');
+	require('./renderer.js');
 
-      <button type="button" ng-click="message()">Message</button>
+</script>
 
-      
-    </div>
-  </body>
-
-  <script>
-    // You can also require other files to run in this process
-    require('angular');
-    require('./renderer.js');
-    
-  </script>
 </html>

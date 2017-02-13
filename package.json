@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "angular": "^1.6.1",
+    "angular-local-storage": "^0.5.2",
     "body-parser": "^1.16.0",
     "cors": "^2.8.1",
     "express": "^4.14.1",
