@@ -3,6 +3,9 @@
 
     const os = require('os');
 
+    var app = require('electron').remote;
+    var dialog = app.dialog;
+
     angular.module('ptApp', [
         'LocalStorageModule',
         'app.torrent',
@@ -36,17 +39,17 @@
             // In the return function, we must pass in a single parameter which will be the data we will work on.
             // We have the ability to support multiple other parameters that can be passed into the filter optionally
             return function (input, optional1, optional2) {
-                let unit = ['Byte','KB','MB','GB','TB','PB'];
+                let unit = ['Byte', 'KB', 'MB', 'GB', 'TB', 'PB'];
                 let index = 0;
 
                 var size = parseInt(input);
 
-                while(size>1024){
-                    size = size/1024;
+                while (size > 1024) {
+                    size = size / 1024;
                     index++;
                 }
 
-                return size.toFixed(2)+unit[index];
+                return size.toFixed(2) + unit[index];
             }
 
         })
@@ -61,6 +64,7 @@
                 torrents: []
             }
 
+            $scope.folders = socketService.configs.folders;
 
             $scope.configEditMode = false;
             $scope.enableConfigEdit = () => {
@@ -68,6 +72,14 @@
             }
 
             $scope.saveConfigs = () => {
+
+                socketService.saveConfigs();
+                //validate folders;
+                for(let i=$scope.folders.length-1;i>=0;i--){
+                    if(!$scope.folders[i].label || !$scope.folders[i].value)
+                        $scope.folders.splice(i,1);
+                }
+
                 if ($scope.configs.deviceId && $scope.configs.username) {
                     $scope.configEditMode = false;
                     socketService.disconnectPtSideServer();
@@ -75,6 +87,32 @@
                 }
             }
 
+            $scope.addFolder = () => {
+                dialog.showOpenDialog( {
+                    properties: ['openDirectory']
+                }, folder=>{
+                    console.log(folder);
+                    if(folder && folder.length){
+                        $scope.folders.push({label:'',value:folder[0]});
+                        $scope.$apply();
+                    }
+                });
+                
+            }
+
+            $scope.updateFolder = (f) => {
+                console.log(f);
+
+                dialog.showOpenDialog( {
+                    properties: ['openDirectory']
+                }, folder=>{
+                    console.log(folder);
+                    if(folder && folder.length){
+                        f.value = folder[0];
+                        $scope.$apply();
+                    }
+                });
+            }
 
             $scope.connectTransmission = () => {
                 $scope.client.state = 'connecting';

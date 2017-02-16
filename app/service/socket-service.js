@@ -5,7 +5,7 @@
 
     angular
         .module('app.socket', ['app.torrent', 'LocalStorageModule'])
-        .factory('socketService', function ($CONFIG, $http, torrentService) {
+        .factory('socketService', function ($CONFIG, $http, torrentService, localStorageService) {
             console.log('torrent service init');
 
             var service = this;
@@ -17,7 +17,11 @@
             this.configs = {
                 deviceId: os.hostname(),
                 username: 'yangmang',
-                password: 'not used'
+                password: 'not used',
+                folders: [{
+                    label: 'Movie',
+                    value: 'E:/download'
+                }]
             };
 
             this.server = {
@@ -28,12 +32,17 @@
             
 
             this.loadConfigs = ()=>{
-
+                let configs = localStorageService.get('configs');
+                if(configs){
+                    this.configs = configs;
+                }
             }
 
             this.saveConfigs = () =>{
-
+                localStorageService.set('configs', service.configs);
             }
+
+
 
             this.loadConfigs();
 
@@ -49,7 +58,8 @@
                     service.socket.emit('credentials_verify', {
                         username: service.configs.username,
                         password: service.configs.password,
-                        device: service.configs.deviceId
+                        device: service.configs.deviceId,
+                        folders: service.configs.folders
                     });
                 });
 

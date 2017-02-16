@@ -1,23 +1,20 @@
 {
-  "name": "electron-quick-start",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "name": "pt-side-loader",
+  "version": "0.0.1",
+  "description": "A side loader for PT",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/log4j/pt-side-loader.git",
   "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "pt"
   ],
-  "author": "GitHub",
+  "author": "Mang Yang",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^1.4.1"
+    "electron": "^1.4.1",
+    "electron-packager": "^8.5.1"
   },
   "dependencies": {
     "angular": "^1.6.1",

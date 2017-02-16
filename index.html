@@ -64,6 +64,24 @@
 						</td>
 					</tr>
 
+					<tr>
+						<td class="config-title">路径配置 <button ng-if='configEditMode' type='button' ng-click='addFolder()'>添加</button></td>
+						<td class="config-body">
+							<table>
+								<tr ng-repeat="f in folders">
+									<td style='width:100px;'>
+										<label ng-if='!configEditMode'>{{f.label}}</label>
+										<input ng-if='configEditMode' type='text' ng-model='f.label'/>
+									</td>
+									<td>{{f.value}}<button ng-if='configEditMode' type='button' ng-click='updateFolder(f)'>更改</button></td>
+									
+								</tr>
+							</table>
+						</td>
+						<td>
+						</td>
+					</tr>
+
 				</tbody>
 			</table>
 		</p>

@@ -22,10 +22,10 @@
                 service.updateUrl();
             }
 
-            service.recheckSession = function(res){
-                if(res.status===409){
+            service.recheckSession = function (res) {
+                if (res.status === 409) {
                     service.sessionId = res.headers('X-Transmission-Session-Id');
-                    if(service.sessionId)
+                    if (service.sessionId)
                         return true;
                     else
                         return false;
@@ -38,56 +38,70 @@
                     method: 'session-get'
                 }).then(res => {
                     service.sessionId = res.headers('X-Transmission-Session-Id');
-                    return { result: !(!service.sessionId), data:service.sessionId }
+                    return { result: !(!service.sessionId), data: service.sessionId }
                 }, res => {
                     console.log(res);
                     service.sessionId = res.headers('X-Transmission-Session-Id');
-                    return { result: !(!service.sessionId), data:service.sessionId }
+                    return { result: !(!service.sessionId), data: service.sessionId }
                 })
             }
 
-            service.getTorrentList = ()=>{
+            service.getTorrentList = () => {
                 return $http.post(service.url, {
                     method: 'torrent-get',
                     arguments: {
-                        fields:[
-                            'id','name','status','totalSize'
+                        fields: [
+                            'id',
+                            'name',
+                            'status',
+                            'totalSize',
+                            'rateDownload',
+                            'rateUpload',
+                            'startDate',
+                            'downloadedEver',
+                            'uploadedEver'
                         ]
                     }
-                },{
-                    headers: {
-                        'X-Transmission-Session-Id': service.sessionId
-                    }
-                }).then(res => {
-                    console.log(res);
-                    return { result: true, data: res.data.arguments.torrents};
-                }, res => {
-                    if(service.recheckSession(res))
-                        return service.getTorrentList();
-                    else
-                        return { result: false }
-                })
+                }, {
+                        headers: {
+                            'X-Transmission-Session-Id': service.sessionId
+                        }
+                    }).then(res => {
+                        console.log(res);
+                        return { result: true, data: res.data.arguments.torrents };
+                    }, res => {
+                        if (service.recheckSession(res))
+                            return service.getTorrentList();
+                        else
+                            return { result: false }
+                    })
             }
 
-            service.postTorrent = (data)=>{
-                return $http.post(service.url, {
+            service.postTorrent = (data) => {
+                let body = {
                     method: 'torrent-add',
                     arguments: {
-                        metainfo:data.torrent
+                        metainfo: data.torrent
                     }
-                },{
-                    headers: {
-                        'X-Transmission-Session-Id': service.sessionId
-                    }
-                }).then(res => {
-                    console.log(res);
-                    return { result: true, data: res.data};
-                }, res => {
-                    if(service.recheckSession(res))
-                        return service.postTorrent(data);
-                    else
-                        return { result: false }
-                })
+                };
+
+                if (data.target) {
+                    body.arguments["download-dir"] = data.target;
+                }
+
+                return $http.post(service.url, body, {
+                        headers: {
+                            'X-Transmission-Session-Id': service.sessionId
+                        }
+                    }).then(res => {
+                        console.log(res);
+                        return { result: true, data: res.data };
+                    }, res => {
+                        if (service.recheckSession(res))
+                            return service.postTorrent(data);
+                        else
+                            return { result: false }
+                    })
             }
 
             return service;
