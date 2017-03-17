@@ -1,0 +1,41 @@
+<!-- Page Content -->
+<div class="content content-boxed" permission permission-only="'UPLOAD_REPORT'" ng-controller="ReportTemplateController">
+
+    <div class="block">
+        <div class="block-header">
+            <div class="block-options">
+                <code class="hidden-xs">Here is the list of available templates for uploading.</code>
+            </div>
+            <h3 class="block-title">Available Template</h3>
+        </div>
+        <div class="block-content">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width: 50px;">#</th>
+                        <th>Form</th>
+                        <th class="hidden-xs">Description</th>
+                        <th class="hidden-xs" style="width: 15%;">Created</th>
+                        <th class="text-center" style="width: 100px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="t in templates">
+                        <td class="text-center">{{$index+1}}</td>
+                        <td>{{t.title}}</td>
+                        <td class="hidden-xs">{{t.subtitle}}</td>
+                        <td class="hidden-xs">
+                            <span class="label label-info">{{t.updated_at|date:'MM/dd/yyyy HH:mm'}}</span>
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-default" ng-click="createNewReport(t)" type="button" data-toggle="tooltip" title="Request"><i class="fa fa-pencil"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

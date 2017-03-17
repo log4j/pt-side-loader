@@ -1,0 +1,15 @@
+{
+  "name": "htmlparser2",
+  "homepage": "https://github.com/fb55/htmlparser2",
+  "version": "3.9.2",
+  "_release": "3.9.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "v3.9.2",
+    "commit": "e9a0dbe69011317793b2d70e8db2758c5bba25b3"
+  },
+  "_source": "https://github.com/fb55/htmlparser2.git",
+  "_target": "^3.9.2",
+  "_originalSource": "htmlparser2",
+  "_direct": true
+}

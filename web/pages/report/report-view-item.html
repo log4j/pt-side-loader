@@ -1,0 +1,107 @@
+<div ng-if="item.type==='header'" class="panel-heading">
+    <h3 class="panel-title">{{item.description}} <em ng-if="item.multiple">#{{$index+1}}</em></h3>
+</div>
+
+<div ng-if="item.type==='label'">
+    <p>{{item.description}}</p>
+</div>
+
+<div ng-if="item.type==='text'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6" ng-if="item.type==='text'">
+        <label class="control-label">{{item.value}}</label>
+    </div>
+</div>
+
+<div ng-if="item.type==='readonly'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6">
+        <input class="form-control" ng-readonly="true" value="{{item.default}}">
+    </div>
+</div>
+
+<div ng-if="item.type==='file'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6">
+
+        <div class="input-group">
+            <!--<input class="form-control" type="file" nv-file-select uploader="uploader" id="file-{{item.elementId}}" style="display: none;"
+                ng-model='item.file' options="{'alias':'file-{{item.elementId}}'}" ng-change='selectFile(item)' />-->
+            <input class="form-control" ng-readonly="true" value="{{item.value + (item.err?('('+item.err+')'):'')}}">
+
+            <span class="input-group-addon" ng-show="item.value"><a ng-href="{{'/file/'+item.value}}" target="_blank"><i class="fa fa-external-link text-info"></i></a></span>
+
+        </div>
+    </div>
+</div>
+
+
+<div ng-if="item.type==='address'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6">
+        <label class="control-label">{{item.value}}</label>
+    </div>
+</div>
+
+<div ng-if="item.type==='date'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6">
+        <label class="control-label">{{item.value}}</label>
+    </div>
+</div>
+
+<div ng-if="item.type==='phone'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6">
+        <label class="control-label">{{item.value}}</label>
+    </div>
+</div>
+
+<div ng-if="item.type==='email'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6">
+        <label class="control-label">{{item.value}}</label>
+    </div>
+</div>
+
+<div ng-if="item.type==='number'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6" ng-if="!item.unit">
+        <label class="control-label">{{item.value}}</label>
+    </div>
+    <div class="col-md-6" ng-if="item.unit">
+
+        <label class="control-label">{{item.value}} <span>{{item.unit}}</span></label>
+    </div>
+</div>
+
+<div ng-if="item.type==='select'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6">
+        <label class="control-label">{{item.value}}</label>
+    </div>
+</div>
+
+
+<div ng-if="item.type==='radio'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6">
+        <label class="control-label">{{item.value}}</label>
+    </div>
+</div>
+
+<div ng-if="item.type==='group'" class="panel-group">
+
+    <div ng-repeat="group in item.groups" class="col-md-12 panel  panel-default">
+
+
+        <div ng-if="group && group.length && group[0].type==='header'" class="form-group panel-heading">
+            <h3 class="panel-title">{{group[0].description}} <em>#{{$index+1}}</em></h3>
+        </div>
+        <!--hide the first one if the first is header-->
+        <div ng-repeat="item in group" ng-if="!($index===0 && item.type==='header')">
+
+            <div class="form-group" ng-include="'pages/report/report-edit-item.html'"> </div>
+        </div>
+    </div>
+</div>

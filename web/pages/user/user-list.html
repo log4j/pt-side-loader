@@ -1,0 +1,136 @@
+<!-- Page Content -->
+<div class="content content-boxed" permission permission-only="'MANAGE_ACCOUNT'" ng-controller="UserController">
+    <!-- Table Sections (data-js-table-sections attribute is initialized in js/directives.js) -->
+
+    <!-- END Table Sections -->
+
+    <div class="block block-opt-hidden" id="block-create-user">
+        <div class="block-header">
+            <ul class="block-options">
+
+                <li>
+                    <button type="button" data-js-block-option data-action="content_toggle"></button>
+                </li>
+            </ul>
+            <h3 class="block-title">Create User</h3>
+        </div>
+        <div class="block-content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <form name='newUserForm' class="js-validation-bootstrap form-horizontal">
+                        <div class="row">
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label" for="new-user-first-name">First Name</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" type="text" ng-model="newUser.firstName" id="new-user-first-name" name="new-user-first-name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label" for="new-user-last-name">Last Name</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" type="text" ng-model="newUser.lastName" id="new-user-last-name" name="new-user-last-name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label" for="new-user-email">Email</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" type="email" ng-model="newUser.email" id="new-user-email" name="new-user-email">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label" for="new-user-password">Password</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" type="text" ng-model="newUser.password" id="new-user-password" name="new-user-password">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label" for="new-user-last-name">Role</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" ng-model="newUser.type">
+                                    <option value="Reporter">Reporter</option>
+                                    <option value="Reviewer">Reviewer</option>
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12 text-right">
+                                <button class="btn btn-primary " type="submit">Create User</button>
+                                <button class="btn btn-danger " type="reset">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="block" id="block-user-list">
+        <div class="block-header">
+            <ul class="block-options">
+                <li>
+                    <button type="button" data-js-block-option data-action="content_toggle"></button>
+                </li>
+                <li>
+                    <button type="button" ng-click="refreshUserListBlock()"><i class="si si-refresh"></i></button>
+                </li>
+            </ul>
+            <h3 class="block-title">All Users</h3>
+        </div>
+        <div class="block-content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <label>
+                        <select class="form-control">
+                            <option>10</option>
+                        </select>
+                    </label>
+                    <ul style="float:right;margin:0;" uib-pagination boundary-links="true" total-items="page.total" ng-model="page.current" ng-change="page.change()"
+                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="First" last-text="Last" items-per-page="page.perPage"></ul>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 50px;"></th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Last Login</th>
+                            <th>Role</th>
+                            <th class="text-center" style="width: 100px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in users" ng-hide="$index<(page.current-1)*page.perPage || $index>=(page.current*page.perPage)">
+                            <td class="text-center">{{$index+1}}</td>
+                            <td>{{user | name}}</td>
+                            <td>{{user.email}}</td>
+                            <td><small>{{user.lastLogin | date:'MM/dd/yyyy HH:mm'}}</small></td>
+                            <td>
+                                <span class="label" ng-repeat="role in user.roles" ng-class="{'label-success':role.name=='Admin','label-warning':role.name=='Reporter','label-danger':role.name=='Reviewer','label-info':role.name=='User'}"
+                                    style="margin-right:2px;">{{role.label}}</span>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group">
+                                    <button class="btn btn-xs btn-default" type="button" ng-click="editReport(r)" data-toggle="tooltip" title="Edit Client"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Remove Client"><i class="fa fa-times"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- END Page Content -->

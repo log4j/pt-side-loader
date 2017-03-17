@@ -1,8 +1,9 @@
 {
-  "name": "pt-side-loader",
+  "name": "ptsideloader",
   "version": "0.0.1",
   "description": "A side loader for PT",
   "main": "main.js",
+  "homepage": "https://github.com/log4j/pt-side-loader",
   "scripts": {
     "start": "electron ."
   },
@@ -22,6 +23,7 @@
     "body-parser": "^1.16.0",
     "cors": "^2.8.1",
     "express": "^4.14.1",
+    "htmlparser2": "^3.9.2",
     "socket.io": "^1.7.2"
   }
 }

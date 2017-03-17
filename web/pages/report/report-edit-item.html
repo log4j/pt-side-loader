@@ -1,0 +1,148 @@
+<div ng-if="item.type==='header'" class="panel-heading">
+    <h3 class="panel-title">{{item.description}} <em ng-if="item.multiple">#{{$index+1}}</em></h3>
+</div>
+
+<div ng-if="item.type==='label'">
+    <p>{{item.description}}</p>
+</div>
+
+<div ng-if="item.type==='text'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6" ng-if="item.type==='text'">
+        <input class="form-control" type="text" ng-model="item.value" id="{{item.elementId}}" name="{{item.elementId}}" placeholder="{{item.placeholder}}">
+    </div>
+</div>
+
+<div ng-if="item.type==='readonly'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6">
+        <input class="form-control" ng-readonly="true" value="{{item.default}}">
+    </div>
+</div>
+
+<div ng-if="item.type==='file'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6">
+
+        <div class="input-group">
+            <!--<input class="form-control" type="file" nv-file-select uploader="uploader" id="file-{{item.elementId}}" style="display: none;"
+                ng-model='item.file' options="{'alias':'file-{{item.elementId}}'}" ng-change='selectFile(item)' />-->
+            <label class="form-control" id="file-{{item.elementId}}" type="file" ngf-select="selectFile($file, $invalidFiles,item)" ngf-accept="item.unit|acceptFile"
+                ngf-max-size="4MB" ng-show="!item.isSaving && (!item.saved&&!item.file)">
+                {{item.value?item.value:'Choose File'}}
+                </label>
+            <input class="form-control" ng-show="!item.isSaving && (item.saved || item.file)" ng-readonly="true" value="{{item.value + (item.err?('('+item.err+')'):'')}}">
+            <div class="progress progress-file active" ng-show="item.isSaving">
+                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="90" aria-valuemin="0"
+                    aria-valuemax="100" style="width: {{item.percentage}}%">{{item.percentage}}%</div>
+            </div>
+            <!--<button class="input-group-addon" type="file" ngf-select="selectFile($file, $invalidFiles,item)" accept="image/*" ngf-max-height="1000"
+                ngf-max-size="1MB">
+      Select File</button>-->
+            <span class="input-group-addon">{{item.unit}}</span>
+            <span class="input-group-addon" ng-show="!item.saved">
+                <a href="javascript:;"  ng-click="uploadFile(item)" ><i class="fa fa-upload text-primary"></i></a>
+                </span>
+            <span class="input-group-addon" ng-show="item.saved">
+                <a href="#" type="file" ngf-select="selectFile($file, $invalidFiles,item)" ngf-accept="item.unit|acceptFile"
+                ngf-max-height="1000" ngf-max-size="4MB"><i class="si si-refresh text-primary"></i></a></span>
+            <span class="input-group-addon" ng-show="item.saved"><a ng-href="{{'/file/'+item.value}}" target="_blank"><i class="fa fa-external-link text-info"></i></a></span>
+            <span class="input-group-addon" ng-show="item.saved"><i class="si si-check text-success"></i></span>
+        </div>
+    </div>
+</div>
+
+
+<div ng-if="item.type==='address'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6">
+        <input class="form-control" type="text" ng-model="item.value" id="{{item.elementId}}" name="{{item.elementId}}">
+    </div>
+</div>
+
+<div ng-if="item.type==='date'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6">
+        <input class="form-control" type="text" id="{{item.elementId}}" name="{{item.elementId}}" ng-model="item.value" data-js-datepicker
+            data-date-format="mm/dd/yyyy" placeholder="mm/dd/yyyy">
+    </div>
+</div>
+
+<div ng-if="item.type==='phone'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6">
+        <input data-js-masked-input="(999) 999-9999" class="form-control" type="text" id="{{item.elementId}}" ng-model="item.value"
+            name="{{item.elementId}}" placeholder="(999) 999-9999">
+    </div>
+</div>
+
+<div ng-if="item.type==='email'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6">
+        <input class="form-control" type="email" id="{{item.elementId}}" ng-model="item.value" name="{{item.elementId}}" placeholder="email@example.com">
+    </div>
+</div>
+
+<div ng-if="item.type==='number'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6" ng-if="!item.unit">
+        <input class="form-control" type="number" id="{{item.elementId}}" ng-model="item.value" name="{{item.elementId}}">
+    </div>
+    <div class="col-md-6" ng-if="item.unit">
+        <div class="input-group">
+            <input class="form-control" type="number" id="{{item.elementId}}" ng-model="item.value" name="{{item.elementId}}">
+            <span class="input-group-addon">{{item.unit}}</span>
+        </div>
+    </div>
+</div>
+
+<div ng-if="item.type==='select'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6">
+        <select class="form-control" id="{{item.elementId}}" name="{{item.elementId}}" ng-model="item.value" ng-options="opt.label as opt.value for opt in item.options"></select>
+    </div>
+</div>
+
+
+<div ng-if="item.type==='radio'">
+    <label class="col-md-4 control-label" for="{{item.elementId}}">{{item.description}}</label>
+    <div class="col-md-6">
+        <label class="css-input css-radio css-radio-default" ng-repeat="opt in item.options">
+            <input type="radio" name="{{item.elementId}}" ng-model="item.value"  value="{{opt.value}}"><span></span> {{opt.label}}
+        </label>
+    </div>
+</div>
+
+<div ng-if="item.type==='group'" class="panel-group">
+
+    <div ng-repeat="group in item.groups" class="col-md-12 panel  panel-default">
+        <div class="report-group-add">
+            <!--<button class="btn btn-default" ng-click="duplicateGroup(item)">+{{$index}}</button>-->
+            <div class="btn-group">
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a tabindex="-1" href="javascript:void(0)" ng-click="duplicateGroup(item)">Duplicate</a>
+                    </li>
+                    <li>
+                        <a tabindex="-1" href="javascript:void(0)" ng-click="duplicateGroup(item, true)">Duplicate With Data</a>
+                    </li>
+                    <li>
+                        <a tabindex="-1" href="javascript:void(0)" ng-if="$index>0" ng-click="deleteGroup(item, $index)">Remove</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div ng-if="group && group.length && group[0].type==='header'" class="form-group panel-heading">
+            <h3 class="panel-title">{{group[0].description}} <em>#{{$index+1}}</em></h3>
+        </div>
+        <!--hide the first one if the first is header-->
+        <div ng-repeat="item in group" ng-if="!($index===0 && item.type==='header')">
+
+            <div class="form-group" ng-include="'pages/report/report-edit-item.html'"> </div>
+        </div>
+    </div>
+</div>

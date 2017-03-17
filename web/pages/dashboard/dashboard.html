@@ -1,0 +1,312 @@
+<!-- Page Header -->
+<div class="content bg-image overflow-hidden" style="background-image: url('assets/img/photos/photo3@2x.jpg');">
+    <div class="push-50-t push-15">
+        <h1 class="h2 text-white animated zoomIn">Dashboard</h1>
+        <h2 class="h5 text-white-op animated zoomIn">Welcome Administrator</h2>
+    </div>
+</div>
+<!-- END Page Header -->
+
+<!-- Stats -->
+<div class="content bg-white border-b" ng-if="false">
+    <div class="row items-push text-uppercase">
+        <div class="col-xs-6 col-sm-3">
+            <div class="font-w700 text-gray-darker animated fadeIn">Product Sales</div>
+            <div class="text-muted animated fadeIn"><small><i class="si si-calendar"></i> Today</small></div>
+            <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">300</a>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <div class="font-w700 text-gray-darker animated fadeIn">Product Sales</div>
+            <div class="text-muted animated fadeIn"><small><i class="si si-calendar"></i> This Month</small></div>
+            <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">8,790</a>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <div class="font-w700 text-gray-darker animated fadeIn">Total Earnings</div>
+            <div class="text-muted animated fadeIn"><small><i class="si si-calendar"></i> All Time</small></div>
+            <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">$ 93,880</a>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <div class="font-w700 text-gray-darker animated fadeIn">Average Sale</div>
+            <div class="text-muted animated fadeIn"><small><i class="si si-calendar"></i> All Time</small></div>
+            <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">$ 270</a>
+        </div>
+    </div>
+</div>
+<!-- END Stats -->
+
+
+<!-- Page Content -->
+<div class="content content-boxed" ng-if="false">
+    <!-- Table Sections (data-js-table-sections attribute is initialized in js/directives.js) -->
+    <div class="block">
+        <div class="block-header">
+            <div class="block-options">
+                <!--<code>data-js-table-sections</code>-->
+            </div>
+            <h3 class="block-title">Template And Assignments</h3>
+        </div>
+        <div class="block-content">
+            <!--
+            Separate your table content with multiple tbody sections. Add one row and add the class .js-table-sections-header to a
+            tbody section to make it clickable. It will then toggle the next tbody section which can have multiple rows. Eg:
+
+            <tbody class="js-table-sections-header">One row</tbody>
+            <tbody>Multiple rows</tbody>
+            <tbody class="js-table-sections-header">One row</tbody>
+            <tbody>Multiple rows</tbody>
+            <tbody class="js-table-sections-header">One row</tbody>
+            <tbody>Multiple rows</tbody>
+
+            You can also add the class .open in your tbody.js-table-sections-header to make the next tbody section visible by default
+            -->
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 30px;"></th>
+                        <th>Templates</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="hidden-xs" style="width: 220px"></th>
+                    </tr>
+                </thead>
+                <tbody class="js-table-sections-header" ng-repeat-start="t in templates" ng-class="{'open':t.open}" ng-click="toggleForm(t, $event)">
+                    <tr>
+                        <td class="text-center">
+                            <i class="fa fa-angle-right"></i>
+                        </td>
+                        <td class="font-w600" colspan="2">{{t.title}}</td>
+                        <td>
+                            Assign At
+                        </td>
+                        <td>
+                            Last Update
+                        </td>
+                        <td class="hidden-xs" style="width: 220px">
+                            <em class="text-muted">{{t.updated_at|date:'MM/dd/yyyy HH:mm'}}</em> &nbsp;
+                            <button class="btn btn-primary btn-sm" ng-click="assignForm(t)">Assign</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody ng-repeat-end>
+
+
+                    <tr ng-if="t.assign">
+                        <td colspan="6">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="t.assign.type">
+                                        <option value="new">New Reporter</option>
+                                        <option value="recent">Recent Reporter</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="row" ng-show="t.assign.type === 'new'">
+                                        <div class="col-xs-4">
+                                            <label class="css-input switch switch-info">
+                                                <input type="checkbox" ng-change="printAssign(t)" ng-model="t.assign.createAccount">
+                                                <span></span> Create Account
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4" ng-show="t.assign.createAccount">
+                                            <input type="email" ng-model="t.assign.email" class="form-control" placeholder="Email">
+                                        </div>
+                                        <div class="col-sm-4" ng-show="t.assign.createAccount">
+                                            <input type=" text " ng-model="t.assign.password" class="form-control " placeholder="Password ">
+                                        </div>
+                                        <div class="col-sm-4 " ng-show="!t.assign.createAccount">
+                                            <input type="text " ng-model="t.assign.firstName" class="form-control" placeholder="First Name ">
+                                        </div>
+                                        <div class="col-sm-4 " ng-show="!t.assign.createAccount">
+                                            <input type="text " ng-model="t.assign.lastName" class="form-control" placeholder="Last Name ">
+                                        </div>
+                                    </div>
+                                    <div class="row " ng-show="t.assign.type==='recent' ">
+                                        <div class="col-xs-6 ">
+                                            <select class="form-control ">
+                                                <option >Mang Yang</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2 ">
+                                    <button class="btn btn-primary " ng-click="submitAssignment(t)" ng-disabled="t.assign.isSaving">Send</button>
+                                    <button class="btn btn-danger " ng-click="assignFormCancel(t) " ng-disabled="t.assign.isSaving">Cancel</button>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+
+                    <tr ng-if="!t.assignments ">
+                        <td class="text-center " colspan="6 ">Loading</td>
+                    </tr>
+
+
+
+                    <tr ng-if="t.assignments && t.assignments.length==0 ">
+                        <td class="text-center " colspan="5 ">No record</td>
+                    </tr>
+                    <tr ng-if="t.assignments && t.assignments.length " ng-repeat="ass in t.assignments ">
+                        <td class="text-center "></td>
+                        <td class="font-w600 ">{{ass.user|name:'email'}}</td>
+                        <td>
+                            <small>
+                                <span class="label label-success ">{{ass.status}}</span>
+                                </small>
+                        </td>
+                        <td>
+                            <small class="text-muted ">{{ass.assignDate|date:'MM/dd/yyyy HH:mm'}}</small>
+                        </td>
+                        <td>
+                            <small class="text-muted ">{{ass.updatedAt|date:'MM/dd/yyyy HH:mm'}}</small>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-xs ">View</button>
+                            <button class="btn btn-success btn-xs ">Download</button>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+    <!-- END Table Sections -->
+
+</div>
+<!-- END Page Content -->
+
+
+<!-- Page Content -->
+<div class="content content-narrow">
+
+    <div class="block block-transparent" id="block-stats">
+        <div class="block-header">
+            <ul class="block-options">
+                <li>
+                    <button type="button" ng-click="refreshStatsBlock()"><i class="si si-refresh"></i></button>
+                </li>
+            </ul>
+        </div>
+        <div class="block-content">
+            <!-- Icon Tiles -->
+            <h2 class="content-heading">Quick Link</h2>
+            <div class="content-grid push-50">
+                <div class="row">
+
+                    <div class="col-xs-6 col-sm-4 col-lg-2" permission permission-only="'MANAGE_ACCOUNT'">
+                        <a class="block block-link-hover2 text-center" ui-sref="layout.user">
+                            <div class="block-content block-content-full bg-success">
+                                <i class="si si-users fa-4x text-white"></i>
+                                <div class="font-w600 text-white-op push-15-t">Users</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-4 col-lg-2" permission permission-only="['REVIEW_REPORT','UPLOAD_REPORT']">
+                        <a class="block block-link-hover2 text-center" ui-sref="layout.template">
+                            <div class="block-content block-content-full bg-amethyst">
+                                <i class="si si-note fa-4x text-white"></i>
+                                <div class="font-w600 text-white-op push-15-t">Templates</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-4 col-lg-2" permission permission-only="['REVIEW_REPORT','UPLOAD_REPORT']">
+                        <a class="block block-link-hover2 text-center" ui-sref="layout.report-list">
+                            <div class="block-content block-content-full bg-city">
+                                <i class="si si-bar-chart fa-4x text-white"></i>
+                                <div class="font-w600 text-white-op push-15-t">Reports</div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            <!-- END Icon Tiles -->
+
+            <!-- One Row Tiles -->
+            <h2 class="content-heading">Stats</h2>
+            <div class="content-grid push-50">
+
+
+                <!-- Background Colored Tiles -->
+                <div class="row">
+                    <div class="col-lg-4" permission permission-only="'MANAGE_ACCOUNT'">
+                        <a class="block block-link-hover2" ui-sref="layout.user">
+                            <div class="block-content block-content-full bg-success clearfix">
+                                <i class="si si-users fa-2x text-white pull-right"></i>
+                                <span class="h4 font-w700 text-white">{{stats.REPORTER}}</span> <span class="h4 text-white-op">Reporters</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4" permission permission-only="'MANAGE_ACCOUNT'">
+                        <a class="block block-link-hover2" ui-sref="layout.user">
+                            <div class="block-content block-content-full bg-primary clearfix">
+                                <i class="si si-envelope fa-2x text-white pull-right"></i>
+                                <span class="h4 font-w700 text-white">{{stats.REVIEWER}}</span> <span class="h4 text-white-op">Reviewers</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4">
+                        <a class="block block-link-hover2" ui-sref="layout.template">
+                            <div class="block-content block-content-full bg-amethyst clearfix">
+                                <i class="si si-note fa-2x text-white pull-right"></i>
+                                <span class="h4 font-w700 text-white">{{stats.TEMPLATE}}</span> <span class="h4 text-white-op">Templates</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-lg-4" permission permission-only="'MANAGE_REPORT'">
+                        <a class="block block-link-hover2" ui-sref="layout.report-list">
+                            <div class="block-content block-content-full bg-city clearfix">
+                                <i class="si si-bar-chart fa-2x text-white pull-right"></i>
+                                <span class="h4 font-w700 text-white">{{stats.REPORT_ALL}}</span> <span class="h4 text-white-op">Reports Total</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-lg-4" permission permission-only="'MANAGE_REPORT'">
+                        <a class="block block-link-hover2" ui-sref="layout.report-list">
+                            <div class="block-content block-content-full bg-city clearfix">
+                                <i class="si si-bar-chart fa-2x text-white pull-right"></i>
+                                <span class="h4 font-w700 text-white">{{stats.REPORT_DRAFT}}</span> <span class="h4 text-white-op">Reports in Draft</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-lg-4" permission permission-only="'MANAGE_REPORT'">
+                        <a class="block block-link-hover2" ui-sref="layout.report-list">
+                            <div class="block-content block-content-full bg-city clearfix">
+                                <i class="si si-bar-chart fa-2x text-white pull-right"></i>
+                                <span class="h4 font-w700 text-white">{{stats.REPORT_DECLINED}}</span> <span class="h4 text-white-op">Reports declined</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-lg-4" permission permission-only="'REVIEW_REPORT'">
+                        <a class="block block-link-hover2" ui-sref="layout.review-list">
+                            <div class="block-content block-content-full bg-city clearfix">
+                                <i class="si si-bar-chart fa-2x text-white pull-right"></i>
+                                <span class="h4 font-w700 text-white">{{stats.REPORT_SUBMIT}}</span> <span class="h4 text-white-op">Reports To Review</span>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+                <!-- END Background Colored Tiles -->
+            </div>
+            <!-- END One Row Tiles -->
+        </div>
+    </div>
+
+
+
+</div>
+<!-- END Page Content -->
+
+<!--
+<ng-include src="'pages/report/report-list.html'"></ng-include>
+
+<ng-include src="'pages/report/report-templates.html'"></ng-include>-->

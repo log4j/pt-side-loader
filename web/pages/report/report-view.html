@@ -1,0 +1,71 @@
+<div class="content bg-gray-lighter">
+    <div class="row items-push">
+        <div class="col-sm-8">
+            <h1 class="page-heading">
+                {{form.title}} <small ng-if="form.subtitle">{{form.subtitle}}</small>
+            </h1>
+        </div>
+        <div class="col-sm-4 text-right hidden-xs" ng-if="false">
+            <ol class="breadcrumb push-10-t">
+                <li>Forms</li>
+                <li><a class="link-effect" href="">Pickers &amp; More</a></li>
+            </ol>
+        </div>
+    </div>
+</div>
+<!-- END Page Header -->
+
+<!-- Page Content -->
+<div class="content content-narrow">
+    <!-- Datepicker -->
+    <!-- Bootstrap Datepicker (.js-datepicker and .input-daterange class is initialized in App() -> uiHelperDatepicker()) -->
+    <!-- For more info and examples you can check out https://github.com/eternicode/bootstrap-datepicker -->
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Datepicker (Default forms) -->
+            <div class="block">
+                <div class="block-header">
+                    <!--<ul class="block-options">
+                        <li>
+                            <button type="button" ng-click="saveReport()"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+                        </li>
+                    </ul>-->
+                    <ul class="block-options">
+                        <!--<li>
+                            <button type="button" ng-click="saveReport()"><i class="glyphicon glyphicon-floppy-disk"></i> Save</button>
+                        </li>
+                        <li>
+                        </li>
+                        <li>
+                            <button type="reset"><i class="fa fa-repeat"></i> Reset</button>
+                        </li>-->
+                    </ul>
+                    <h3 class="block-title"> {{form.title}} </h3>
+                </div>
+                <div class="block-content block-content-narrow">
+                    <form class="form-horizontal" action="base_forms_pickers_more.html" method="post" onsubmit="return false;">
+                        <div class="form-group" ng-repeat="item in model" ng-include="'pages/report/report-view-item.html'">
+
+                        </div>
+                    </form>
+                </div>
+
+                <div class="block-header">
+                    <!--<ul class="block-options">
+                        <li>
+                            <button type="button" ng-click="saveReport()"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+                        </li>
+                    </ul>-->
+                    <ul class="block-options">
+                        <li>
+                            <!--<button type="button" ng-click="saveReport()"><i class="glyphicon glyphicon-floppy-disk"></i> Save</button>-->
+                        </li>
+                    </ul>
+                    <h3 class="block-title">&nbsp;</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

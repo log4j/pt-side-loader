@@ -1,0 +1,15 @@
+.report-group-add{
+    position: absolute;
+    top: 3px;
+    right: 3px;
+}
+
+.progress.progress-file{
+    margin: 0px;
+    height: 34px;
+}
+
+.progress.progress-file .progress-bar{
+    height: 34px;
+    line-height: 34px;
+}
