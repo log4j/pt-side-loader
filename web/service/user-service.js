@@ -289,66 +289,6 @@
             return new User(body)
         }
 
-        service.generateDocument = function (data) {
-            return $$http.postToDownload('document', data);
-        };
-
-        service.createAccountByAdmin = function (data) {
-            let body = {
-                email: data.email,
-                password: data.password,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                phone: data.phone,
-                avatar: data.avatar,
-                createAccount: true
-            }
-
-            if (data.createAccount) {
-                body.credentialType = 'email';
-            } else {
-                body.credentialType = 'token';
-                body.token = uuid.v4();
-            }
-
-            return $$http.post('user', body);
-
-        }
-
-        service.getAllUsers = () => {
-            return $$http.get('admin/user');
-        }
-
-        service.roles = null;
-        service.getRoles = () => {
-            if (service.roles) {
-                return new Promise(resolve => {
-                    resolve({ result: true, data: service.roles });
-                })
-            } else {
-                return $$http.get('role').then(res => {
-                    if (res && res.result)
-                        service.roles = res.data;
-                    return res;
-                })
-            }
-        }
-
-        service.postUserRole = (user, role) => {
-            return $$http.post('role/user', {
-                user: user,
-                role: role
-            });
-        }
-
-        service.removeUser = () => {
-
-        }
-
-        service.getStats = () => {
-            return $$http.get('stats');
-        }
-
         return service;
     }
 })();

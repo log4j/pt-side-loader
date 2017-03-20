@@ -24,7 +24,8 @@ var App = angular.module('app', [
 
 // set a constant for the API we are connecting to
 App.constant('API_CONFIG', {
-    'host': 'http://word.mangs.site'
+    'host': 'http://word.mangs.site',
+    transmissionPort: 9091
 });
 
 
@@ -37,6 +38,26 @@ App.config(['$uibTooltipProvider',
         });
     }
 ]);
+
+App.filter('sizeFormat', function () {
+
+    // In the return function, we must pass in a single parameter which will be the data we will work on.
+    // We have the ability to support multiple other parameters that can be passed into the filter optionally
+    return function (input, optional1, optional2) {
+        let unit = ['Byte', 'KB', 'MB', 'GB', 'TB', 'PB'];
+        let index = 0;
+
+        var size = parseInt(input);
+
+        while (size > 1024) {
+            size = size / 1024;
+            index++;
+        }
+
+        return size.toFixed(2) + unit[index];
+    }
+
+});
 
 // Custom UI helper functions
 App.factory('uiHelpers', function () {

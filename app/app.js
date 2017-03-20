@@ -75,9 +75,9 @@
 
                 socketService.saveConfigs();
                 //validate folders;
-                for(let i=$scope.folders.length-1;i>=0;i--){
-                    if(!$scope.folders[i].label || !$scope.folders[i].value)
-                        $scope.folders.splice(i,1);
+                for (let i = $scope.folders.length - 1; i >= 0; i--) {
+                    if (!$scope.folders[i].label || !$scope.folders[i].value)
+                        $scope.folders.splice(i, 1);
                 }
 
                 if ($scope.configs.deviceId && $scope.configs.username) {
@@ -88,26 +88,26 @@
             }
 
             $scope.addFolder = () => {
-                dialog.showOpenDialog( {
+                dialog.showOpenDialog({
                     properties: ['openDirectory']
-                }, folder=>{
+                }, folder => {
                     console.log(folder);
-                    if(folder && folder.length){
-                        $scope.folders.push({label:'',value:folder[0]});
+                    if (folder && folder.length) {
+                        $scope.folders.push({ label: '', value: folder[0] });
                         $scope.$apply();
                     }
                 });
-                
+
             }
 
             $scope.updateFolder = (f) => {
                 console.log(f);
 
-                dialog.showOpenDialog( {
+                dialog.showOpenDialog({
                     properties: ['openDirectory']
-                }, folder=>{
+                }, folder => {
                     console.log(folder);
-                    if(folder && folder.length){
+                    if (folder && folder.length) {
                         f.value = folder[0];
                         $scope.$apply();
                     }
@@ -170,35 +170,7 @@
 
             $scope.connectTransmission();
 
-            $scope.startServer = () => {
 
-                socket = io('http://localhost:4000');
-
-                // server.listen(3000, () => {
-                //     console.log('starting !!!!');
-                // })
-                // console.log('trying to connect');
-                // socket = io('http://localhost:4000');
-                // console.log('tried');
-
-                // socket.on('welcome', function (data) {
-                //     console.log(data);
-
-                //     // Respond with a message including this clients' id sent from the server
-                //     socket.emit('i am client', { data: 'foo!', id: data.id });
-                // });
-                // socket.on('time', function (data) {
-                //     console.log(data);
-                // });
-                // socket.on('error', data => {
-                //     console.log(data);
-                // });
-                // socket.on('message', data => {
-                //     console.log(data);
-                // });
-
-
-            }
 
             $scope.message = () => {
                 if (socket) {

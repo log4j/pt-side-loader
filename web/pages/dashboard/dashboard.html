@@ -1,10 +1,5 @@
 <!-- Page Header -->
-<div class="content bg-image overflow-hidden" style="background-image: url('assets/img/photos/photo3@2x.jpg');">
-    <div class="push-50-t push-15">
-        <h1 class="h2 text-white animated zoomIn">Dashboard</h1>
-        <h2 class="h5 text-white-op animated zoomIn">Welcome Administrator</h2>
-    </div>
-</div>
+
 <!-- END Page Header -->
 
 <!-- Stats -->
@@ -191,8 +186,8 @@
         </div>
         <div class="block-content">
             <!-- Icon Tiles -->
-            <h2 class="content-heading">Quick Link</h2>
-            <div class="content-grid push-50">
+            <h2 class="content-heading" ng-if="false">Quick Link</h2>
+            <div class="content-grid push-50" ng-if="false">
                 <div class="row">
 
                     <div class="col-xs-6 col-sm-4 col-lg-2" permission permission-only="'MANAGE_ACCOUNT'">
@@ -233,63 +228,29 @@
 
                 <!-- Background Colored Tiles -->
                 <div class="row">
-                    <div class="col-lg-4" permission permission-only="'MANAGE_ACCOUNT'">
+                    <div class="col-md-4" permission permission-only="'MANAGE_ACCOUNT'">
                         <a class="block block-link-hover2" ui-sref="layout.user">
                             <div class="block-content block-content-full bg-success clearfix">
                                 <i class="si si-users fa-2x text-white pull-right"></i>
-                                <span class="h4 font-w700 text-white">{{stats.REPORTER}}</span> <span class="h4 text-white-op">Reporters</span>
+                                <span class="h4 font-w700 text-white">葡萄服务器</span>
+                                <span class="h4 text-white-op"></span>
                             </div>
                         </a>
                     </div>
-                    <div class="col-lg-4" permission permission-only="'MANAGE_ACCOUNT'">
-                        <a class="block block-link-hover2" ui-sref="layout.user">
+                    <div class="col-md-4">
+                        <a class="block block-link-hover2" ui-sref="layout.transmission">
                             <div class="block-content block-content-full bg-primary clearfix">
                                 <i class="si si-envelope fa-2x text-white pull-right"></i>
-                                <span class="h4 font-w700 text-white">{{stats.REVIEWER}}</span> <span class="h4 text-white-op">Reviewers</span>
+                                <span class="h4 font-w700 text-white">Transmission</span>
+                                <span class="h4 text-white-op"></span>
                             </div>
                         </a>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-md-4">
                         <a class="block block-link-hover2" ui-sref="layout.template">
                             <div class="block-content block-content-full bg-amethyst clearfix">
                                 <i class="si si-note fa-2x text-white pull-right"></i>
                                 <span class="h4 font-w700 text-white">{{stats.TEMPLATE}}</span> <span class="h4 text-white-op">Templates</span>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-lg-4" permission permission-only="'MANAGE_REPORT'">
-                        <a class="block block-link-hover2" ui-sref="layout.report-list">
-                            <div class="block-content block-content-full bg-city clearfix">
-                                <i class="si si-bar-chart fa-2x text-white pull-right"></i>
-                                <span class="h4 font-w700 text-white">{{stats.REPORT_ALL}}</span> <span class="h4 text-white-op">Reports Total</span>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-lg-4" permission permission-only="'MANAGE_REPORT'">
-                        <a class="block block-link-hover2" ui-sref="layout.report-list">
-                            <div class="block-content block-content-full bg-city clearfix">
-                                <i class="si si-bar-chart fa-2x text-white pull-right"></i>
-                                <span class="h4 font-w700 text-white">{{stats.REPORT_DRAFT}}</span> <span class="h4 text-white-op">Reports in Draft</span>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-lg-4" permission permission-only="'MANAGE_REPORT'">
-                        <a class="block block-link-hover2" ui-sref="layout.report-list">
-                            <div class="block-content block-content-full bg-city clearfix">
-                                <i class="si si-bar-chart fa-2x text-white pull-right"></i>
-                                <span class="h4 font-w700 text-white">{{stats.REPORT_DECLINED}}</span> <span class="h4 text-white-op">Reports declined</span>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-lg-4" permission permission-only="'REVIEW_REPORT'">
-                        <a class="block block-link-hover2" ui-sref="layout.review-list">
-                            <div class="block-content block-content-full bg-city clearfix">
-                                <i class="si si-bar-chart fa-2x text-white pull-right"></i>
-                                <span class="h4 font-w700 text-white">{{stats.REPORT_SUBMIT}}</span> <span class="h4 text-white-op">Reports To Review</span>
                             </div>
                         </a>
                     </div>
