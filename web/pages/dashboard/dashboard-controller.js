@@ -5,7 +5,7 @@
 
 // Login Controller Content Controller
 App.controller('DashboardController',
-    function ($scope, $state, $localStorage, $window, UserService, FormService, $timeout, $uibModal) {
+    function ($scope, $state, $localStorage, $window, UserService, FormService, SocketService, $timeout, $uibModal) {
 
 
 
@@ -25,6 +25,9 @@ App.controller('DashboardController',
         }
 
         $scope.refreshStatsBlock();
+
+
+        SocketService.connectPtSideServer($scope);
 
     }
 );

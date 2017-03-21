@@ -75,7 +75,7 @@
     }
 
     /* @ngInject */
-    function UserService($q, $http, $$http, API_CONFIG, uuid, PermissionService) {
+    function UserService($q, $http, $$http, API_CONFIG, SocketService, uuid, PermissionService) {
         //RoleStore
 
         var service = this;
@@ -105,6 +105,8 @@
                     if (body) {
                         //login!!
                         service.currentUser = service.parseIndexPage(res);
+
+
 
                         deferred.resolve({ result: true, data: service.currentUser });
                     } else {

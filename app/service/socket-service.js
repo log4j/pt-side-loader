@@ -5,12 +5,12 @@
 
     angular
         .module('app.socket', ['app.torrent', 'LocalStorageModule'])
-        .factory('socketService', function ($CONFIG, $http, torrentService, localStorageService) {
+        .factory('socketService', function ($CONFIG, $http, TorrentService, localStorageService) {
             console.log('torrent service init');
 
             var service = this;
 
-            
+
 
             this.url = 'http://word.mangs.site:5000';
 
@@ -29,16 +29,16 @@
                 id: ''
             }
             this.serverUpdated = null;
-            
 
-            this.loadConfigs = ()=>{
+
+            this.loadConfigs = () => {
                 let configs = localStorageService.get('configs');
-                if(configs){
+                if (configs) {
                     this.configs = configs;
                 }
             }
 
-            this.saveConfigs = () =>{
+            this.saveConfigs = () => {
                 localStorageService.set('configs', service.configs);
             }
 
@@ -90,25 +90,25 @@
                     console.log(data);
                 });
 
-                service.socket.on('fetch_torrents',(data, fn)=>{
+                service.socket.on('fetch_torrents', (data, fn) => {
                     console.log(data);
                     // fn(['a','b']);
 
-                    torrentService.getTorrentList().then(res=>{
+                    TorrentService.getTorrentList().then(res => {
                         fn(res.data);
                     });
 
                 });
 
-                service.socket.on('post_torrent',(data, fn)=>{
+                service.socket.on('post_torrent', (data, fn) => {
                     console.log('post_torrent', data);
                     // fn(['a','b']);
-                    torrentService.postTorrent(data).then(res=>{
+                    TorrentService.postTorrent(data).then(res => {
                         fn(res.data);
                     });
                 });
 
-                
+
 
                 service.socket.on('disconnect', function () {
                     console.log('user disconnected');
@@ -118,8 +118,8 @@
                 });
             }
 
-            this.disconnectPtSideServer = ()=>{
-                if(this.socket){
+            this.disconnectPtSideServer = () => {
+                if (this.socket) {
                     this.socket.disconnect(true);
                 }
             }

@@ -59,6 +59,10 @@ App.config(['$stateProvider', '$urlRouterProvider',
                 url: '/transmission',
                 templateUrl: 'pages/transmission/transmission.html'
             })
+            .state('layout.setting', {
+                url: '/setting',
+                templateUrl: 'pages/setting/setting.html'
+            })
             .state('layout.report-list', {
                 url: '/report',
                 templateUrl: 'pages/report/report-list.html',

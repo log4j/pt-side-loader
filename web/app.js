@@ -17,6 +17,7 @@ var App = angular.module('app', [
     'permission.ui',
     'angular-uuid',
     'angularFileUpload',
+    'LocalStorageModule',
     'ngFileUpload',
     'app.filters',
     'app.services'

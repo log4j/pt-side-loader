@@ -5,7 +5,7 @@
 
     angular
         .module('app.services')
-        .factory('socketService', function ($CONFIG, $http, torrentService, localStorageService) {
+        .factory('SocketService', function (API_CONFIG, $http, TorrentService, localStorageService) {
             console.log('torrent service init');
 
             var service = this;
@@ -16,13 +16,14 @@
 
             this.configs = {
                 deviceId: os.hostname(),
-                username: 'yangmang',
+                username: 'xiaoputao',
                 password: 'not used',
                 folders: [{
                     label: 'Movie',
                     value: 'E:/download'
                 }]
             };
+            console.log(this.configs);
 
             this.server = {
                 state: '',
@@ -36,6 +37,7 @@
                 if (configs) {
                     this.configs = configs;
                 }
+                return this.configs;
             }
 
             this.saveConfigs = () => {
@@ -94,7 +96,7 @@
                     console.log(data);
                     // fn(['a','b']);
 
-                    torrentService.getTorrentList().then(res => {
+                    TorrentService.getTorrentList().then(res => {
                         fn(res.data);
                     });
 
@@ -103,7 +105,7 @@
                 service.socket.on('post_torrent', (data, fn) => {
                     console.log('post_torrent', data);
                     // fn(['a','b']);
-                    torrentService.postTorrent(data).then(res => {
+                    TorrentService.postTorrent(data).then(res => {
                         fn(res.data);
                     });
                 });
