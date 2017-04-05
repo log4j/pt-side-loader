@@ -47,7 +47,7 @@
                 </ul>
             </div>
             <a class="h5 text-white" data-ui-sref="layout.dashboard" data-js-blur>
-                <i class="fa fa-circle-o-notch text-primary"></i> <span class="h4 font-w600 sidebar-mini-hide">ne</span>
+                <i class="fa fa-circle-o-notch text-primary"></i> <span class="h4 font-w600 sidebar-mini-hide">{{currentUser|name}}</span>
             </a>
         </div>
         <!-- END Side Header -->
@@ -63,17 +63,23 @@
                 </li>
                 <li>
                     <a data-ui-sref="layout.dashboard" data-ui-sref-active="active">
-                        <i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span>
+                        <i class="si si-speedometer"></i><span class="sidebar-mini-hide">状态</span>
                     </a>
                 </li>
                 <li>
                     <a data-ui-sref="layout.transmission" data-ui-sref-active="active">
-                        <i class="si si-speedometer"></i><span class="sidebar-mini-hide">Transmission</span>
+                        <i class="si si-arrow-down"></i><span class="sidebar-mini-hide">Transmission</span>
                     </a>
                 </li>
                 <li>
                     <a data-ui-sref="layout.setting" data-ui-sref-active="active">
-                        <i class="si si-speedometer"></i><span class="sidebar-mini-hide">Settings</span>
+                        <i class="si si-settings"></i><span class="sidebar-mini-hide">设置</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" ng-click="logout()" data-ui-sref-active="active">
+                        <i class="si si-settings"></i><span class="sidebar-mini-hide">退出</span>
                     </a>
                 </li>
 

@@ -26,7 +26,8 @@ var App = angular.module('app', [
 // set a constant for the API we are connecting to
 App.constant('API_CONFIG', {
     'host': 'http://word.mangs.site',
-    transmissionPort: 9091
+    transmissionPort: 9091,
+    ptServer: 'https://pt.sjtu.edu.cn/'
 });
 
 
@@ -58,7 +59,71 @@ App.filter('sizeFormat', function () {
         return size.toFixed(2) + unit[index];
     }
 
-});
+})
+    .filter('serverStatus', function () {
+
+        // In the return function, we must pass in a single parameter which will be the data we will work on.
+        // We have the ability to support multiple other parameters that can be passed into the filter optionally
+        return function (input, optional1, optional2) {
+
+            switch (input) {
+                case ('connecting'):
+                    return '正在连接';
+                case ('connected'):
+                    return '已连接';
+                case ('disconnect'):
+                    return '已断开';
+                default:
+                    return '未知';
+            }
+
+        }
+
+    })
+    .filter('torrentStatus', function () {
+        let TorrentStatus = [
+            {
+                label: '未知',
+                value: -1
+            },
+            {
+                label: '已停止',
+                value: 0
+            },
+            {
+                label: '准备检查',
+                value: 1
+            },
+            {
+                label: '检查中',
+                value: 2
+            },
+            {
+                label: '准备下载',
+                value: 3
+            },
+            {
+                label: '下载中',
+                value: 4
+            },
+            {
+                label: '准备做种',
+                value: 5
+            },
+            {
+                label: '做种中',
+                value: 6
+            }
+        ];
+        return function (value) {
+            for (let index in TorrentStatus) {
+                if (TorrentStatus[index].value === value)
+                    return TorrentStatus[index].label;
+            }
+            return '未知';
+        }
+    })
+    ;
 
 // Custom UI helper functions
 App.factory('uiHelpers', function () {
@@ -479,8 +544,8 @@ App.controller('SideOverlayCtrl', ['$scope', '$localStorage', '$window',
 ]);
 
 // Sidebar Controller
-App.controller('SidebarCtrl', ['$scope', '$localStorage', '$window', '$location', 'PermissionService',
-    function ($scope, $localStorage, $window, $location, PermissionService) {
+App.controller('SidebarCtrl', ['$scope', '$state', '$localStorage', '$window', '$location', 'PermissionService', 'UserService',
+    function ($scope, $state, $localStorage, $window, $location, PermissionService, UserService) {
 
         // PermissionService.fetchPermissions().then(res => {
         //     console.log(res);
@@ -494,13 +559,6 @@ App.controller('SidebarCtrl', ['$scope', '$localStorage', '$window', '$location'
             // Get current path to use it for adding active classes to our submenus
             $scope.path = $location.path();
         });
-    }
-]);
-
-// Header Controller
-App.controller('HeaderCtrl', ['$scope', '$state', '$localStorage', '$window', 'UserService',
-    function ($scope, $state, $localStorage, $window, UserService) {
-
 
         $scope.logout = function () {
             UserService.logout().then(res => {
@@ -513,6 +571,15 @@ App.controller('HeaderCtrl', ['$scope', '$state', '$localStorage', '$window', 'U
                 $scope.currentUser = res.data;
             }
         });
+    }
+]);
+
+// Header Controller
+App.controller('HeaderCtrl', ['$scope', '$state', '$localStorage', '$window', 'UserService',
+    function ($scope, $state, $localStorage, $window, UserService) {
+
+
+
 
         // When view content is loaded
         $scope.$on('$includeContentLoaded', function () {

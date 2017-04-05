@@ -7,25 +7,57 @@ const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const url = require('url')
 
-
+const Menu = electron.Menu;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindow;
+let application = {
+  isQuiting: false
+};
+let tray = null
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 1220, height: 640 })
+  mainWindow = new BrowserWindow({
+    width: 1020,
+    height: 640,
+    icon: path.join(__dirname, '/icon.png')
+  })
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, '/web/index.html'),
     protocol: 'file:',
-    slashes: true
+    slashes: true,
+    icon: path.join(__dirname, '/icon.png')
   }))
 
+  // mainWindow.setSkipTaskbar(true);
+
+  Menu.setApplicationMenu(null);
+
+
+  tray = new electron.Tray(path.join(__dirname, '/icon.png'))
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: '显示', click: function () {
+        mainWindow.show();
+      }
+    },
+    {
+      label: '退出', click: function () {
+        application.isQuiting = true;
+        app.quit();
+
+      }
+    }
+  ])
+  tray.setToolTip('This is my application.')
+  tray.setContextMenu(contextMenu)
+
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -33,7 +65,22 @@ function createWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null
-  })
+  });
+
+  mainWindow.on('minimize', function (event) {
+    event.preventDefault()
+    mainWindow.hide();
+  });
+
+
+
+  mainWindow.on('close', function (event) {
+    if (!application.isQuiting) {
+      event.preventDefault()
+      mainWindow.hide();
+    }
+    return false;
+  });
 
 
 }

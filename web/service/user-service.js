@@ -97,7 +97,7 @@
 
             } else {
 
-                $$http.getHtml('index.php', { endPoint: 'https://pt.sjtu.edu.cn/' }).then(res => {
+                $$http.getHtml('index.php', { endPoint: API_CONFIG.ptServer }).then(res => {
 
                     let body = $$http.findElement(res, item => {
                         return item.tagName === 'table' && item.id === "userbar";
@@ -133,9 +133,10 @@
         }
 
         service.logout = function () {
-            service.currentUser = null;
-            PermissionService.clearPermissions();
-            return $$http.get('logout');
+            return $$http.getHtml(service.currentUser.logOutLink, { endPoint: API_CONFIG.ptServer }).then(data => {
+                service.currentUser = null;
+                return { result: true };
+            });
         }
 
         service.testState = function () {
@@ -169,7 +170,7 @@
             let deferred = $q.defer();
             let hasPermission = false;
 
-            $$http.getHtml('index.php', { endPoint: 'https://pt.sjtu.edu.cn/' }).then(res => {
+            $$http.getHtml('index.php', { endPoint: API_CONFIG.ptServer }).then(res => {
                 console.log(res);
 
                 let body = $$http.findElement(res, item => {
@@ -206,10 +207,10 @@
                     } else {
                         //need checkcode!!!
                         let checkCodeImg = $$http.findElement(data, item => {
-                            return item.tagName === 'img' && item.alt === '验证码';
+                            return item.tagName === 'img' && item.src.indexOf('getcheckcode') >= 0;
                         });
                         if (checkCodeImg) {
-                            checkcodeUrl = $$http.host + checkCodeImg.src;
+                            checkcodeUrl = API_CONFIG.ptServer + checkCodeImg.src;
                             checkcodeNeeded = true;
                         }
                     }
@@ -230,7 +231,7 @@
                     resolve(process(body));
                 });
             } else {
-                return $$http.getHtml('login.php', { endPoint: 'https://pt.sjtu.edu.cn/' }).then(process);
+                return $$http.getHtml('login.php', { endPoint: API_CONFIG.ptServer }).then(process);
             }
         }
 
@@ -245,7 +246,7 @@
             let url = 'takelogin.php';
             // let url = 'http://localhost:8080/https://pt.sjtu.edu.cn/takelogin.php';
 
-            return $$http.postHtml(url, body, { endPoint: 'https://pt.sjtu.edu.cn/' }).then(data => {
+            return $$http.postHtml(url, body, { endPoint: API_CONFIG.ptServer }).then(data => {
                 console.log(data);
                 if (data) {
                     let errorWord = $$http.findElement(data, item => {
@@ -261,16 +262,16 @@
                         });
                         console.log(checkcodeError);
                         if (checkcodeError && checkcodeError.tagName) {
-                            return { user: null, error: '请输入正确的验证码!' };
+                            return { result: false, user: null, err: '请输入正确的验证码!' };
                         } else {
-                            return { user: null, error: '用户名或密码不正确!或者你还没有通过验证!' };
+                            return { result: false, user: null, err: '用户名或密码不正确!或者你还没有通过验证!' };
                         }
 
                     } else {
-                        return service.parseIndexPage(data);
+                        return { result: true, data: service.parseIndexPage(data) };
                     }
                 } else {
-                    return { user: null, error: '无法连接到葡萄服务器,请稍后尝试...' };
+                    return { result: false, user: null, err: '无法连接到葡萄服务器,请稍后尝试...' };
                 }
 
 
@@ -288,7 +289,7 @@
             let body = $$http.findElement(data, item => {
                 return item.tagName === 'table' && item.id === "userbar";
             });
-            return new User(body)
+            return new User(body);
         }
 
         return service;

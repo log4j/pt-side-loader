@@ -20,15 +20,52 @@
         <div class="block-content block-content-narrow">
             <form class="form-horizontal" method="post" onsubmit="return false;">
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="transmission-name">Transmission 昵称</label>
-                    <div class="col-md-6">
-                        <input class="form-control" type="text" ng-model="configs.deviceId" id="transmission-name" name="transmission-name" placeholder="">
+                    <label class="col-sm-4 control-label" for="transmission-name">Transmission 昵称</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" ng-disabled="!configEditMode" ng-model="configs.deviceId" id="transmission-name"
+                            name="transmission-name" placeholder="">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="transmission-name">Transmission 端口</label>
-                    <div class="col-md-6">
-                        <input class="form-control" type="text" ng-model="configs.port" id="transmission-name" name="transmission-name" placeholder="">
+                    <label class="col-sm-4 control-label" for="transmission-name">Transmission 端口</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" ng-disabled="!configEditMode" ng-model="transmissionConfigs.port" id="transmission-port"
+                            name="transmission-port" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">下载位置</label>
+                    <div class="col-sm-6 text-right">
+                        <button type="button" class="btn btn-primary" ng-disabled="!configEditMode" ng-click="addFolder()">添加</button>
+                    </div>
+                </div>
+                <div class="form-group" ng-repeat="item in configs.folders">
+                    <label class="col-sm-4 control-label text-right">#{{$index}}</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" ng-disabled="!configEditMode" ng-model="item.label" id="folder_{{$index}}_label"
+                            name="folder_{{$index}}_label" placeholder="Tag #{{$index+1}}">
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input class="form-control" type="text" ng-disabled="!configEditMode" ng-model="item.value" id="folder_{{$index}}_value"
+                                name="folder_{{$index}}_value" placeholder="">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" ng-disabled="!configEditMode" ng-click="updateFolder(item)" type="button"><i class="si si-folder"></i></button>
+                            </span>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-danger push-5-r push-10" ng-disabled="!configEditMode" type="button"><i class="fa fa-times"></i> </button>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-sm-12 text-right">
+                        <button class="btn btn-info push-5-r push-10" ng-hide="configEditMode" ng-click="startUpdate()" type="button"><i class="fa fa-edit"></i> 编辑</button>
+                        <button class="btn btn-danger push-5-r push-10" ng-hide="!configEditMode" ng-click="cancelUpdate()" type="button"><i class="fa fa-times"></i> 取消</button>
+                        <button class="btn btn-success push-5-r push-10" ng-hide="!configEditMode" ng-click="saveConfigs()" type="button"><i class="fa fa-save"></i> 保存</button>
                     </div>
                 </div>
             </form>

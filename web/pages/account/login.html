@@ -5,19 +5,19 @@
             <div class="block block-themed animated fadeIn">
                 <div class="block-header bg-primary">
                     <ul class="block-options">
-                        <li>
+                        <!--<li>
                             <a href="base_pages_reminder.html">Forgot Password?</a>
                         </li>
                         <li>
                             <a href="base_pages_register.html" data-toggle="tooltip" data-placement="left" title="New Account"><i class="si si-plus"></i></a>
-                        </li>
+                        </li>-->
                     </ul>
-                    <h3 class="block-title">Login</h3>
+                    <h3 class="block-title">登录</h3>
                 </div>
                 <div class="block-content block-content-full block-content-narrow">
                     <!-- Login Title -->
                     <h1 class="h2 font-w600 push-30-t push-5">欢迎!</h1>
-                    <p>Welcome, please login.</p>
+                    <!--<p>Welcome, please login.</p>-->
                     <!-- END Login Title -->
 
                     <!-- Login Form -->
@@ -36,11 +36,23 @@
                             <div class="col-xs-12">
                                 <div class="form-material form-material-primary floating">
                                     <input ng-model="data.password" class="form-control" type="password" id="login-password" name="login-password">
-                                    <label for="login-password">Password</label>
+                                    <label for="login-password">密码</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+
+                        <div class="form-group" ng-if="siteData.checkcodeNeeded">
+                            <div class="col-xs-8">
+                                <div class="form-material form-material-primary floating">
+                                    <input ng-model="data.checkcode" class="form-control" type="text" id="login-checkcode" name="login-checkcode">
+                                    <label for="login-checkcode">验证码</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <img ng-click="prepareLogin()" ng-src="{{siteData.checkcodeUrl}}">
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="false">
                             <div class="col-xs-12">
                                 <label class="css-input switch switch-sm switch-primary">
                                             <input type="checkbox" id="login-remember-me" name="login-remember-me"><span></span> Remember Me?
@@ -49,7 +61,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-xs-12 col-sm-6 col-md-4">
-                                <button class="btn btn-block btn-primary" type="submit"><i class="si si-login pull-right"></i> Log in</button>
+                                <button class="btn btn-block btn-primary" type="submit"><i class="si si-login pull-right"></i> 登录</button>
                             </div>
                         </div>
                     </form>

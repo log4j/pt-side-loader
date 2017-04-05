@@ -4,7 +4,6 @@
     angular
         .module('app.services')
         .factory('TorrentService', function (API_CONFIG, $http) {
-            console.log('torrent service init');
 
             var service = this;
 
@@ -67,7 +66,6 @@
                             'X-Transmission-Session-Id': service.sessionId
                         }
                     }).then(res => {
-                        console.log(res);
                         return { result: true, data: res.data.arguments.torrents };
                     }, res => {
                         if (service.recheckSession(res))

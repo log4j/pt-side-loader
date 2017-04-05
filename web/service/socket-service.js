@@ -16,17 +16,19 @@
 
             this.configs = {
                 deviceId: os.hostname(),
-                username: 'xiaoputao',
-                password: 'not used',
-                folders: [{
-                    label: 'Movie',
-                    value: 'E:/download'
-                }]
+                username: '',
+                password: '',
+                folders: [
+                    //     {
+                    //     label: 'Movie',
+                    //     value: 'E:/download'
+                    // }
+                ]
             };
-            console.log(this.configs);
+            // console.log(this.configs);
 
             this.server = {
-                state: '',
+                state: 'disconnect',
                 id: ''
             }
             this.serverUpdated = null;

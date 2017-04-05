@@ -5,9 +5,11 @@
 
 // Login Controller Content Controller
 App.controller('SettingController',
-    function ($scope, $state, $localStorage, $window, UserService, SocketService, TorrentService, $timeout, $uibModal) {
+    function ($scope, $state, $localStorage, $window, API_CONFIG, UserService, SocketService, TorrentService, $timeout, $uibModal) {
 
 
+        var app = require('electron').remote;
+        var dialog = app.dialog;
 
         $scope.configEditMode = false;
         $scope.enableConfigEdit = () => {
@@ -15,7 +17,9 @@ App.controller('SettingController',
         }
 
         $scope.configs = SocketService.loadConfigs();
-
+        $scope.transmissionConfigs = {
+            port: API_CONFIG.transmissionPort
+        }
         UserService.getCurrentUser().then(res => {
             console.log(res);
             if (res && res.result) {
@@ -24,19 +28,32 @@ App.controller('SettingController',
         });
 
         console.log($scope.configs);
+
+
+        $scope.startUpdate = () => {
+            $scope.configEditMode = true;
+        };
+
+        $scope.cancelUpdate = () => {
+            $scope.configEditMode = false;
+            $scope.configs = SocketService.loadConfigs();
+            $scope.transmissionConfigs.port = API_CONFIG.transmissionPort;
+        }
+
         $scope.saveConfigs = () => {
 
-            SocketService.saveConfigs();
+
             //validate folders;
-            for (let i = $scope.folders.length - 1; i >= 0; i--) {
-                if (!$scope.folders[i].label || !$scope.folders[i].value)
-                    $scope.folders.splice(i, 1);
+            for (let i = $scope.configs.folders.length - 1; i >= 0; i--) {
+                if (!$scope.configs.folders[i].label || !$scope.configs.folders[i].value)
+                    $scope.configs.folders.splice(i, 1);
             }
 
             if ($scope.configs.deviceId && $scope.configs.username) {
                 $scope.configEditMode = false;
                 SocketService.disconnectPtSideServer();
                 SocketService.connectPtSideServer($scope);
+                SocketService.saveConfigs();
             }
         }
 
@@ -46,7 +63,7 @@ App.controller('SettingController',
             }, folder => {
                 console.log(folder);
                 if (folder && folder.length) {
-                    $scope.folders.push({ label: '', value: folder[0] });
+                    $scope.configs.folders.push({ label: '', value: folder[0] });
                     $scope.$apply();
                 }
             });

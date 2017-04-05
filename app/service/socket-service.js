@@ -16,8 +16,8 @@
 
             this.configs = {
                 deviceId: os.hostname(),
-                username: 'yangmang',
-                password: 'not used',
+                username: '',
+                password: '',
                 folders: [{
                     label: 'Movie',
                     value: 'E:/download'

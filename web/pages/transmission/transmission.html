@@ -22,31 +22,27 @@
                 <thead>
                     <tr>
                         <th class="text-center" style="width: 50px;">#</th>
-                        <th>Name</th>
-                        <th>Last Updated</th>
-                        <th class="hidden-xs" style="width: 15%;">Status</th>
-                        <th class="text-center">Actions</th>
+                        <th class="text-center">名称</th>
+                        <th class="text-center">大小</th>
+                        <th class="text-center" style="min-width: 50px;">状态</th>
+                        <th class="text-center">下载</th>
+                        <th class="text-center">上传</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="r in torrents">
-                        <td class="text-center">{{$index+1}}</td>
+                        <td class="text-center">{{r.id}}</td>
                         <td>{{r.name}}</td>
-                        <td>{{r.updatedAt | date:"MM/dd/yyyy HH:mm"}}</td>
-                        <td class="hidden-xs">
-                            <span class="label" ng-class="{'label-success':r.status=='submit','label-info':r.status=='draft'}">{{r.status}}</span>
+                        <td class="text-center">{{r.totalSize | sizeFormat}}</td>
+                        <td>
+                            <span>{{r.status | torrentStatus}}</span>
                         </td>
                         <td class="text-center">
-                            <div class="btn-group" ng-if="false">
-                                <button class="btn btn-xs btn-default" type="button" ng-click="viewReport(r)" data-toggle="tooltip" title="Edit Client"><i class="si si-book-open"></i> View</button>
-                                <button class="btn btn-xs btn-default" ng-if="r.status!='submit'" type="button" ng-click="editReport(r)" data-toggle="tooltip"
-                                    title="Edit Client"><i class="fa fa-pencil"></i> Edit</button>
-                                <button class="btn btn-xs btn-default" ng-if="r.status!='submit'" type="button" ng-click="submitReport(r)" data-toggle="tooltip"
-                                    title="Edit Client"><i class="fa fa-pencil"></i> Submit</button>
-                                <button class="btn btn-xs btn-default" ng-if="r.status!='submit'" type="button" data-toggle="tooltip" title="Remove Client"><i class="fa fa-times"></i></button>
-                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Remove Client"><i class="fa fa-download" ng-click="downloadDocument(r)"></i></button>
-
-                            </div>
+                            {{r.downloadedEver | sizeFormat}}
+                        </td>
+                        <td class="text-center">
+                            {{r.uploadedEver | sizeFormat}}
                         </td>
                     </tr>
                 </tbody>

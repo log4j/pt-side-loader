@@ -5,7 +5,7 @@
 
 // Login Controller Content Controller
 App.controller('LoginController',
-    function ($scope, $state, $localStorage, $window, UserService) {
+    function ($scope, $state, $localStorage, $window, UserService, UiService) {
         // ('login');
         // UserService.getCurrentUser().then(res => {
         //     if (res && res.result) {
@@ -17,24 +17,41 @@ App.controller('LoginController',
 
         $scope.data = {
             username: '',
-            password: ''
+            password: '',
+            checkcode: ''
         }
 
         $scope.helpers.uiLoader('show');
-        UserService.prepareLogin().then(res => {
-            if (res && res.result) {
-                $scope.siteData = res.data;
-                $scope.data.checkcode = res.data.checkcode
-            }
-            console.log(res);
-        })
+
+
+        $scope.prepareLogin = () => {
+            UserService.prepareLogin().then(res => {
+                if (res && res.result) {
+                    $scope.siteData = res.data;
+                    $scope.data.checkcode = res.data.checkcode
+
+                }
+                console.log(res, $scope.siteData);
+                $scope.$apply();
+            })
+        }
+
+        $scope.prepareLogin();
 
         $scope.submitLogin = () => {
-            UserService.login($scope.data.username, $scope.data.password, $scope.data.checkcode).then(res => {
-                if (res && res.result) {
-                    $state.go('layout.dashboard');
-                }
-            });
+            if ($scope.data.username && $scope.data.password && $scope.data.checkcode) {
+                UserService.login($scope.data.username, $scope.data.password, $scope.data.checkcode).then(res => {
+                    if (res && res.result) {
+                        $state.go('layout.dashboard');
+                    } else {
+                        UiService.toast(res.err, 'danger');
+                    }
+                    console.log(res);
+                });
+            } else {
+                UiService.toast('请填写登录信息!', 'info');
+            }
+
         }
 
 
