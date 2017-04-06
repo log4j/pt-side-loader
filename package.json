@@ -5,7 +5,14 @@
   "main": "main.js",
   "homepage": "https://github.com/log4j/pt-side-loader",
   "scripts": {
-    "start": "electron ."
+    "postinstall": "install-app-deps",
+    "start": "electron .",
+    "pack": "build --dir",
+    "dist": "build"
+  },
+  "build": {
+    "appId": "PTSideLoader",
+    "productName": "PTSideLoader"
   },
   "repository": "https://github.com/log4j/pt-side-loader.git",
   "keywords": [
@@ -15,7 +22,8 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^1.4.1",
-    "electron-packager": "^8.5.1"
+    "electron-packager": "^8.5.1",
+    "electron-builder": "next"
   },
   "dependencies": {
     "angular": "^1.6.1",

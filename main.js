@@ -17,6 +17,19 @@ let application = {
 };
 let tray = null
 
+/* Single Instance Check */
+var iShouldQuit = app.makeSingleInstance(function (commandLine, workingDirectory) {
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    mainWindow.show();
+    mainWindow.focus();
+  }
+  return true;
+});
+console.log(iShouldQuit);
+if (iShouldQuit) { app.quit(); return; }
+
+
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
@@ -53,11 +66,17 @@ function createWindow() {
       }
     }
   ])
-  tray.setToolTip('This is my application.')
-  tray.setContextMenu(contextMenu)
 
+  tray.setToolTip('PT Side Loader 正在运行');
+  tray.setContextMenu(contextMenu)
+  tray.on('click', function () {
+    mainWindow.show();
+  })
+  tray.on('double-click', function () {
+    mainWindow.show();
+  })
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -81,6 +100,8 @@ function createWindow() {
     }
     return false;
   });
+
+
 
 
 }
