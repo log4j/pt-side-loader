@@ -92,7 +92,7 @@
         service.getCurrentUser = function () {
             var deferred = $q.defer();
             if (service.currentUser && service.currentUser.id) {
-
+                SocketService.configs.username = service.currentUser.name;
                 deferred.resolve({ result: true, data: service.currentUser });
 
             } else {
@@ -105,8 +105,8 @@
                     if (body) {
                         //login!!
                         service.currentUser = service.parseIndexPage(res);
-
-
+                        // console.log(service.currentUser);
+                        SocketService.configs.username = service.currentUser.name;
 
                         deferred.resolve({ result: true, data: service.currentUser });
                     } else {
